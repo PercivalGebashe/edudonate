@@ -1,4 +1,3 @@
-// src/models/User.js
 import db from '../db/db.js';
 
 export default class User {
@@ -16,7 +15,9 @@ export default class User {
 
   static async findByEmail(email) {
     const result = await db.query(
-      `SELECT * FROM users WHERE email = $1;`,
+      `
+      SELECT * FROM users WHERE email = $1;
+      `,
       [email]
     );
     return result.rows[0];

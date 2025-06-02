@@ -39,7 +39,7 @@ export async function register(req, res) {
         });
 
         const {password: _, ...safeUser} = newUser
-        res.status(201).json({message: "User registered successfully", user: newUser});
+        res.status(201).json({message: "User registered successfully", user: safeUser});
 
     } catch(error){
         console.error("Registration error:", error);
@@ -50,8 +50,6 @@ export async function register(req, res) {
 export async function login(req, res) {
     const {email, password} = req.body;
 
-    console.log(`Details: ${email} ${password}`)
-
     try{
         if(!email){
             return res.status(400).json({message: "Email cannot be empty"})
@@ -61,23 +59,22 @@ export async function login(req, res) {
             return res.status(400).json({message: "Password cannot be empty"})
         }
 
-        const user = User.findByEmail(email);
-        console.log(`User: ${user}`)
-        
+        const user = await User.findByEmail(email);
+
         if(!user){
             return res.status(401).json({message: "Invalid email or password"});
         }
 
         const isValid = await bcrypt.compare(password, user.password);
         if(!isValid){
-            return res.status(401).json({message: "Invalid email or password"})
+            return res.status(401).json({message: "Invalid email or password"});
         }
 
         const token = signToken({userId: user.user_id, isAdmin: user.is_admin});
 
-        const {password_hash, ...safeUser} = user;
+        const {password: _, ...safeUser} = user;
 
-        res.json({user: safeUser, token})
+        res.json({user: safeUser, token});
     }catch(error){
         console.log(`Login error:`, error);
         res.status(500).json({error: "Server error during login"});
