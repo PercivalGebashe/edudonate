@@ -6,25 +6,13 @@ const SALT_ROUNDS = 10;
 
 export async function register(req, res) {
 
-    const { full_name, email, phone_number, password, is_admin = false, associated_school_id = null } = req.body;
+    const { full_name, email, phone_number, password, is_admin = false, associated_school_id = null } = req.validatedData;
 
     try{
-
-        if(!full_name){
-            return res.status(400).json({message: "User name cannot be empty."});
-        }
-
-        if(!email){
-            return res.status(400).json({message: "Email cannot be empt.y"});
-        }
 
         const existingUser = await User.findByEmail(email);
         if(existingUser){
             return res.status(409).json({message: `User with email ${existingUser.email} already exists.`});
-        }
-
-        if(!password){
-            return res.status(400).json({message: "Password cannot be empty"})
         }
 
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -48,19 +36,10 @@ export async function register(req, res) {
 };
 
 export async function login(req, res) {
-    const {email, password} = req.body;
+    const {email, password} = req.validatedData;
 
     try{
-        if(!email){
-            return res.status(400).json({message: "Email cannot be empty"})
-        }
-
-        if(!password){
-            return res.status(400).json({message: "Password cannot be empty"})
-        }
-
         const user = await User.findByEmail(email);
-
         if(!user){
             return res.status(401).json({message: "Invalid email or password"});
         }
@@ -74,7 +53,7 @@ export async function login(req, res) {
 
         const {password: _, ...safeUser} = user;
 
-        res.json({user: safeUser, token});
+        res.status(200).json({user: safeUser, token});
     }catch(error){
         console.log(`Login error:`, error);
         res.status(500).json({error: "Server error during login"});
