@@ -1,6 +1,6 @@
 -- 001_create_schema.sql
 -- PostgreSQL Schema for EduDonate
--- Created: 2025-06-02
+-- Updated: 2025-06-11
 
 -- Drop existing tables if any (for development purposes)
 DROP TABLE IF EXISTS item_photos;
@@ -29,8 +29,9 @@ CREATE TABLE users (
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name TEXT NOT NULL,
     email TEXT UNIQUE,
+    password TEXT NOT NULL,
     phone_number TEXT,
-    is_admin BOOLEAN DEFAULT FALSE,
+    role TEXT NOT NULL DEFAULT 'user',
     associated_school_id UUID REFERENCES schools(school_id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
