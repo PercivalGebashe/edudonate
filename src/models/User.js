@@ -1,17 +1,17 @@
 import db from '../db/db.js';
 
 export default class User {
-  static async create({ full_name, email, phone_number, is_admin = false, associated_school_id = null, password}) {
-    const result = await db.query(
-      `
-      INSERT INTO users (full_name, email, phone_number, is_admin, associated_school_id, password)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *;
-      `,
-      [full_name, email, phone_number, is_admin, associated_school_id, password]
-    );
-    return result.rows[0];
-  }
+static async create({ full_name, email, phone_number, password, role = 'user', associated_school_id = null }) {
+  const result = await db.query(
+    `
+    INSERT INTO users (full_name, email, phone_number, password, role, associated_school_id)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *;
+    `,
+    [full_name, email, phone_number, password, role, associated_school_id]
+  );
+  return result.rows[0];
+}
 
   static async findByEmail(email) {
     const result = await db.query(
