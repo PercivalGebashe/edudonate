@@ -1,7 +1,8 @@
 import db from '../db/db.js';
 
 export default class User {
-static async create({ full_name, email, phone_number, password, role = 'donor', associated_school_id = null }) {
+
+  static async create({ full_name, email, phone_number, password, role = 'donor', associated_school_id = null }) {
   const result = await db.query(
     `
     INSERT INTO users (full_name, email, phone_number, password, role, associated_school_id)

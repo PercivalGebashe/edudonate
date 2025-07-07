@@ -19,9 +19,11 @@ CREATE TABLE schools (
     name TEXT NOT NULL,
     province TEXT NOT NULL,
     city TEXT NOT NULL,
-    address TEXT,
-    contact_email TEXT,
-    contact_number TEXT
+    suburb TEXT,
+    street_address TEXT,
+    postal_code VARCHAR(10),
+    contact_email TEXT UNIQUE CHECK (contact_email ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$'),
+    contact_number VARCHAR(15)
 );
 
 -- Users table

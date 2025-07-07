@@ -1,7 +1,7 @@
 import express from "express"
-import { register, login } from "../controllers/authController.js";
-import { validate } from "../middleware/validate.js";
-import { registrationSchema } from "../validators/authValidator.js";
+import { registerUser, login, registerSchool } from "../controllers/authController.js";
+import { validateUser, validateSchool } from "../middleware/validate.js";
+import { userRegistrationSchema, schoolRegistrationScheema } from "../validators/authValidator.js";
 import { loginSchema } from "../validators/authValidator.js";
 import authenticate from "../middleware/authMiddleware.js";
 import { requireAdmin, requireSchoolAdmin, requireDonor } from "../middleware/roleGuards.js";
@@ -9,8 +9,9 @@ import { requireAdmin, requireSchoolAdmin, requireDonor } from "../middleware/ro
 
 const router = express.Router();
 
-router.post("/register", validate(registrationSchema), register);
-router.post("/login", validate(loginSchema), login);
+router.post("/register-user", validateUser(userRegistrationSchema), registerUser);
+router.post("/register-school", validateSchool(schoolRegistrationScheema), registerSchool);
+router.post("/login", validateUser(loginSchema), login);
 router.post("/donate", authenticate, requireDonor, (req, res) => {
     // will later add logic
     console.log(req.user);

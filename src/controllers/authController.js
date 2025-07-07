@@ -1,10 +1,12 @@
 import bcrypt from "bcrypt";
 import { signToken } from "../utils/jwt.js";
 import User from "../models/User.js";
+import School from "../models/School.js";
+import { email } from "zod/v4";
 
 const SALT_ROUNDS = 10;
 
-export async function register(req, res) {
+export async function registerUser(req, res) {
 
     const { full_name, email, phone_number, password, is_admin = false, associated_school_id = null } = req.validatedData;
 
@@ -27,7 +29,7 @@ export async function register(req, res) {
         });
 
         const {password: _, ...safeUser} = newUser
-        res.status(201).json({message: "User registered successfully", user: safeUser});
+        res.status(201).json({message: "User registered successfully.", user: safeUser});
 
     } catch(error){
         console.error("Registration error:", error);
@@ -59,3 +61,26 @@ export async function login(req, res) {
         res.status(500).json({error: "Server error during login"});
     }
 }
+
+export async function registerSchool(req, res){
+    const {school_name, province, city, suburb, street_address, postal_code, contact_email, contact_number} = req.validatedData;
+
+    try{
+
+        const newSchool = await School.create({
+            school_name,
+            province,
+            city,
+            suburb,
+            street_address,
+            postal_code,
+            contact_email,
+            contact_number
+        });
+
+        res.status(201).json({message: "School registered successfully.", school: newSchool});
+    } catch(error){
+        console.log("Registration error", error)
+        res.status(500).json({message: "Server error during registration."});
+    }
+};
