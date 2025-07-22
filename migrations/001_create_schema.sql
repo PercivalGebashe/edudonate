@@ -30,9 +30,9 @@ CREATE TABLE schools (
 CREATE TABLE users (
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name TEXT NOT NULL,
-    email TEXT UNIQUE,
+    contact_email TEXT UNIQUE,
     password TEXT NOT NULL,
-    phone_number TEXT,
+    contact_number TEXT,
     role TEXT NOT NULL DEFAULT 'user',
     associated_school_id UUID REFERENCES schools(school_id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

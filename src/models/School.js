@@ -11,7 +11,7 @@ export default class School{
         contact_email,
         contact_number
         }){
-    const result = db.query(
+    const result = await db.query(
         `
         INSERT INTO schools (
             school_name,
@@ -42,12 +42,12 @@ export default class School{
 
     };
 
-    static async findByEmail(email) {
+    static async findByEmail(contact_email) {
     const result = await db.query(
         `
-        SELECT * FROM users WHERE email = $1;
+        SELECT * FROM users WHERE contact_email = $1;
         `,
-        [email]
+        [contact_email]
     );
     return result.rows[0];
     }

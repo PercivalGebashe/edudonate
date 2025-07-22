@@ -3,15 +3,15 @@ import { strongPassword } from "./partials/strongPassword.js";
 import { string } from "zod/v4";
 
 export const loginSchema = z.object({
-    email: z.string().email({message: "Invalid email format"}),
+    contact_email: z.string().email({message: "Invalid email format"}),
     password: strongPassword,    
 });
 
 export const userRegistrationSchema = z.object({
     full_name: z.string().min(1, {message: "Full nume is required"}),
-    email: z.string().email({message: "Invalid email format"}),
+    contact_email: z.string().email({message: "Invalid email format"}),
     password: strongPassword,
-    phone_number: z.string().optional(),
+    contact_number: z.string().optional(),
 });
 
 export const schoolRegistrationScheema = z.object({
