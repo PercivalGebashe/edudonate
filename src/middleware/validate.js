@@ -9,3 +9,12 @@ export function validateUser(schema){
         next();
     }
 }
+
+export function validateSchool(schema){
+    return (req, res, next) => {
+        const result = schema.safeParse(req.body);
+        if(!result.success){
+            
+        }
+    }
+}

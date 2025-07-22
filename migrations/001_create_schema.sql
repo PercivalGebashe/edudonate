@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS item_sizes;
 -- Schools table (must be created before users)
 CREATE TABLE schools (
     school_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name TEXT NOT NULL,
+    school_name TEXT NOT NULL,
     province TEXT NOT NULL,
     city TEXT NOT NULL,
     suburb TEXT,
