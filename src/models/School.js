@@ -59,5 +59,15 @@ export default class School{
     );
     return result.rows[0];
     }
+
+    static async findBySchoolName(school_name){
+        const result = await db.query("SELECT * FROM schools WHERE school_name = $1", [school_name]);
+        return result.rows;
+    }
+
+    static async findAllSchools(){
+        const result = await db.query("SELECT * FROM schools");
+        return result.rows;
+    }
     
 };
