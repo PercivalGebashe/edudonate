@@ -33,7 +33,7 @@ CREATE TABLE users (
     contact_email TEXT UNIQUE,
     password TEXT NOT NULL,
     contact_number TEXT,
-    role TEXT NOT NULL DEFAULT 'user',
+    role TEXT NOT NULL DEFAULT 'donor',
     associated_school_id UUID REFERENCES schools(school_id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

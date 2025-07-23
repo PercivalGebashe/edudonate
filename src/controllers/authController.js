@@ -8,11 +8,11 @@ const SALT_ROUNDS = 10;
 
 export async function registerUser(req, res) {
 
-    const { full_name, email, phone_number, password, is_admin = false, associated_school_id = null } = req.validatedData;
+    const { full_name, contact_email, contact_number, password, role, associated_school_id = null } = req.validatedData;
 
     try{
 
-        const existingUser = await User.findByEmail(email);
+        const existingUser = await User.findByEmail(contact_email);
         if(existingUser){
             return res.status(409).json({message: `User with email ${existingUser.email} already exists.`});
         }
@@ -21,11 +21,11 @@ export async function registerUser(req, res) {
 
         const newUser = await User.create({
             full_name,
-            email,
-            phone_number,
-            is_admin,
-            associated_school_id,
-            password: hashedPassword
+            contact_email,
+            contact_number,
+            password: hashedPassword,
+            role,
+            associated_school_id
         });
 
         const {password: _, ...safeUser} = newUser

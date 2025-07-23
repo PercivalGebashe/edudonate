@@ -12,6 +12,8 @@ export const userRegistrationSchema = z.object({
     contact_email: z.string().email({message: "Invalid email format"}),
     password: strongPassword,
     contact_number: z.string().optional(),
+    role: z.string().optional(),
+    associated_school_id: z.string().optional()
 });
 
 export const schoolRegistrationScheema = z.object({
@@ -23,4 +25,9 @@ export const schoolRegistrationScheema = z.object({
     postal_code: z.string().min(4, {message: "Postal code is required"}),
     contact_email: z.string().email({message: "Invalid email format"}),
     contact_number: z.string().min(10, {message: "modbile number is required"}),  
+});
+
+export const adminRoleSchema = z.object({
+    contact_email: z.string().email({message: "Invalid email format"}),
+    role: z.string({message: "Role is required"})
 });
