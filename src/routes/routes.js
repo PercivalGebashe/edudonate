@@ -1,6 +1,6 @@
 import express from "express"
 import { registerUser, login, registerSchool } from "../controllers/authController.js";
-import {updateRole} from "../controllers/adminController.js";
+import {updateAssociatedSchoolId, updateRole} from "../controllers/adminController.js";
 import { validateUser, validateSchool, validateRole } from "../middleware/validate.js";
 import { userRegistrationSchema, schoolRegistrationScheema, adminRoleSchema } from "../validators/authValidator.js";
 import { loginSchema } from "../validators/authValidator.js";
@@ -16,6 +16,7 @@ router.post("/register-school", validateSchool(schoolRegistrationScheema), regis
 router.post("/login", validateUser(loginSchema), login);
 router.get("/schools", getSchool);
 router.post("/update-role", validateRole(adminRoleSchema), requireAdmin, updateRole);
+router.post("/update-school-id", validateRole(adminRoleSchema), requireAdmin, updateAssociatedSchoolId)
 router.post("/donate", authenticate, requireDonor, (req, res) => {
     // will later add logic
     console.log(req.user);

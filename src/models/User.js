@@ -42,4 +42,16 @@ export default class User {
     
     return result.rowCount;
   }
+
+  static async updateAssociatedSchoolId(contact_email, school_id){
+    const result = await db.query(
+      `
+      UPDATE users
+      SET associated_school_id = $1
+      WHERE contact_email = $2
+      `,[school_id, contact_email]
+    );
+
+    return result.rowCount
+  }
 }
