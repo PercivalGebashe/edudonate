@@ -4,7 +4,7 @@ import { string } from "zod/v4";
 
 export const loginSchema = z.object({
     contact_email: z.string().email({message: "Invalid email format"}),
-    password: strongPassword,    
+    password: strongPassword
 });
 
 export const userRegistrationSchema = z.object({
@@ -24,10 +24,19 @@ export const schoolRegistrationScheema = z.object({
     street_address: z.string().min(1, {message: "Street adress is required"}),
     postal_code: z.string().min(4, {message: "Postal code is required"}),
     contact_email: z.string().email({message: "Invalid email format"}),
-    contact_number: z.string().min(10, {message: "modbile number is required"}),  
+    contact_number: z.string().min(10, {message: "modbile number is required"})
 });
 
 export const adminRoleSchema = z.object({
     contact_email: z.string().email({message: "Invalid email format"}),
     role: z.string({message: "Role is required"})
+});
+
+
+export const requestSchema = z.object({
+    requester_id: z.string({message: "Requester I.D is required"}),
+    school_id: z.string({message: "School I.D is required"}),
+    category_id: z.string({message: "Category Id is required"}),
+    type_id: z.string({message: "Type I.D is required"}),
+    size_id: z.string().optional()
 });

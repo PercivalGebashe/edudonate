@@ -34,3 +34,16 @@ export function validateRole(schema){
         next();
     }
 }
+
+export function validateRequestInput(schema){
+    return (req,res,next) =>{
+        const result = schema.safeParse(req.body.request);
+
+        if(!result.success){
+            const errors = result.error.format();
+            return res.status(400).json({message: "Input validation failed", errors})
+        }
+        req.validatedData = result.data;
+        next();
+    }
+}
