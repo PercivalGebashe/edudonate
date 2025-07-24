@@ -75,7 +75,7 @@ CREATE TABLE items (
 CREATE TABLE item_photos (
     photo_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     item_id UUID REFERENCES items(item_id) ON DELETE CASCADE,
-    photo_url TEXT NOT NULL
+    photo_path TEXT NOT NULL
 );
 
 -- Donation transactions
@@ -88,7 +88,7 @@ CREATE TABLE donations (
     donated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Requests made by children or admin
+-- Requests made by client
 CREATE TABLE item_requests (
     request_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     requester_id UUID REFERENCES users(user_id),
