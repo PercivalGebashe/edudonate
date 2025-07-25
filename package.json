@@ -26,6 +26,7 @@
     "zod": "^3.25.48"
   },
   "devDependencies": {
-    "node-pg-migrate": "^8.0.1"
+    "node-pg-migrate": "^8.0.1",
+    "nodemon": "^3.1.10"
   }
 }
