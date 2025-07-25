@@ -26,4 +26,20 @@ export default class ItemRequest{
 
         return result.rows[0];
     }
+
+    static async getRequest(limit, offset){
+        const result = await db.query(
+            "SELECT * FROM item_requests ORDER BY created_at DESC LIMIT $1 OFFSET $2",
+            [limit, offset]
+        );
+
+        return result.rows[0];
+    }
+
+    static async countAll(){
+
+        const result = await db.query("SELECT COUNT(*) AS count FROM item_requests");
+        console.log(result);
+        return result.rows[0].count;
+    }
 }
