@@ -1,6 +1,6 @@
 import {z} from "zod";
 import { strongPassword } from "./partials/strongPassword.js";
-import { string } from "zod/v4";
+import { optional, string } from "zod/v4";
 
 export const loginSchema = z.object({
     contact_email: z.string().email({message: "Invalid email format"}),
@@ -39,4 +39,15 @@ export const requestSchema = z.object({
     category_id: z.string({message: "Category Id is required"}),
     type_id: z.string({message: "Type I.D is required"}),
     size_id: z.string().optional()
+});
+
+export const donationSchema = z.object({
+    donor_id: z.string({message: "Donor I.D is required"}),
+    school_id: z.string({message: "School I.D is required"}),
+    category_id: z.string({message: "Category Id is required"}),
+    type_id: z.string({message: "Type I.D is required"}),
+    size_id: z.string().optional(),
+    description: z.string({message: "Item description is required"}),
+    condition: z.string({message: "Item condtion(Good, Used, New) is required is required"}),
+    is_available: z.string().optional()
 });

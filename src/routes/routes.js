@@ -1,13 +1,14 @@
 import express from "express"
 import { registerUser, login, registerSchool } from "../controllers/authController.js";
 import {updateAssociatedSchoolId, updateRole} from "../controllers/adminController.js";
-import { validateUser, validateSchool, validateRole, validateRequestInput } from "../middleware/validate.js";
-import { userRegistrationSchema, schoolRegistrationScheema, adminRoleSchema, loginSchema, requestSchema } from "../validators/inputSchema.js";
+import { validateUser, validateSchool, validateRole, validateRequestInput, validateDonationInput } from "../middleware/validate.js";
+import { userRegistrationSchema, schoolRegistrationScheema, adminRoleSchema, loginSchema, requestSchema, donationSchema } from "../validators/inputSchema.js";
 import authenticate from "../middleware/authMiddleware.js";
 import { requireAdmin, requireSchoolAdmin, requireDonor } from "../middleware/roleGuards.js";
 import { getSchool } from "../controllers/schoolsControllers.js";
 import { getRequest, makeRequest } from "../controllers/itemRequest.js";
 import { paginate } from "../middleware/pagination.js";
+import { donate } from "../controllers/itemDonate.js";
 
 
 const router = express.Router();
@@ -20,13 +21,6 @@ router.post("/update-role", validateRole(adminRoleSchema), requireAdmin, updateR
 router.post("/update-school-id", validateRole(adminRoleSchema), requireAdmin, updateAssociatedSchoolId)
 router.post("/request", validateRequestInput(requestSchema), requireSchoolAdmin, makeRequest);
 router.get("/request", paginate(), getRequest);
-router.post("/donate", authenticate, requireDonor, (req, res) => {
-    // will later add logic
-    console.log(req.user);
-    res.json({
-        message: "Testing",
-        user: req.user
-    });
-});
+router.post("/donate", validateDonationInput(donationSchema), requireDonor, donate);
 
 export default router;
